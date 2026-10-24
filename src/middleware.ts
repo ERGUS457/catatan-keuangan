@@ -42,9 +42,13 @@ export async function middleware(request: NextRequest) {
     pathname === "/sw.js" ||
     pathname === "/offline" ||
     pathname === "/icon.svg" ||
+    pathname === "/favicon.ico" ||
+    pathname === "/apple-touch-icon.png" ||
     pathname.startsWith("/icons/") ||
     pathname.startsWith("/_next/") ||
-    pathname === "/favicon.ico"
+    pathname.endsWith(".png") ||
+    pathname.endsWith(".svg") ||
+    pathname.endsWith(".ico")
   ) {
     return NextResponse.next();
   }
