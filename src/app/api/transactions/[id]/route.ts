@@ -1,11 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
+import { getAuthUser } from "@/lib/auth";
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const user = await getAuthUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { id } = await params;
     const body = await request.json();
     const { type, amount, account_id, to_account_id, category_id, note, date } = body;
@@ -15,8 +21,8 @@ export async function PUT(
       `UPDATE transactions
        SET type = $1, amount = $2, account_id = $3, to_account_id = $4,
            category_id = $5, note = $6, date = $7
-       WHERE id = $8 RETURNING *`,
-      [type, Math.round(amount), account_id, to_account_id || null, category_id || null, note || null, date, id]
+       WHERE id = $8 AND user_id = $9 RETURNING *`,
+      [type, Math.round(amount), account_id, to_account_id || null, category_id || null, note || null, date, id, user.id]
     );
 
     if (result.length === 0) {
@@ -34,9 +40,20 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const user = await getAuthUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { id } = await params;
     const db = getDb();
-    await db.query("DELETE FROM transactions WHERE id = $1", [id]);
+    const result = await db.query(
+      "DELETE FROM transactions WHERE id = $1 AND user_id = $2 RETURNING id",
+      [id, user.id]
+    );
+    if (result.length === 0) {
+      return NextResponse.json({ error: "Transaksi tidak ditemukan" }, { status: 404 });
+    }
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error deleting transaction:", error);

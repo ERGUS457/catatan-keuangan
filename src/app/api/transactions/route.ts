@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
+import { getAuthUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   try {
+    const user = await getAuthUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const month = searchParams.get("month");
     const type = searchParams.get("type");
@@ -19,10 +25,10 @@ export async function GET(request: NextRequest) {
       LEFT JOIN categories c ON t.category_id = c.id
       LEFT JOIN accounts a ON t.account_id = a.id
       LEFT JOIN accounts ta ON t.to_account_id = ta.id
-      WHERE 1=1
+      WHERE t.user_id = $1
     `;
-    const params: unknown[] = [];
-    let paramIdx = 1;
+    const params: unknown[] = [user.id];
+    let paramIdx = 2;
 
     if (month) {
       query += ` AND to_char(t.date, 'YYYY-MM') = $${paramIdx}`;
@@ -63,6 +69,11 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const user = await getAuthUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const body = await request.json();
     const { type, amount, account_id, to_account_id, category_id, note, date } = body;
 
@@ -76,9 +87,10 @@ export async function POST(request: NextRequest) {
 
     const db = getDb();
     const result = await db.query(
-      `INSERT INTO transactions (type, amount, account_id, to_account_id, category_id, note, date)
-       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+      `INSERT INTO transactions (user_id, type, amount, account_id, to_account_id, category_id, note, date)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
       [
+        user.id,
         type,
         Math.round(amount),
         account_id,

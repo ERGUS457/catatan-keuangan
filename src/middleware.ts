@@ -22,16 +22,26 @@ async function verifyHmacSignature(value: string, signatureHex: string, secret: 
   }
 }
 
+function decodeBase64Url(str: string): string {
+  let base64 = str.replace(/-/g, "+").replace(/_/g, "/");
+  while (base64.length % 4) {
+    base64 += "=";
+  }
+  return atob(base64);
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Public paths
   if (
     pathname === "/login" ||
+    pathname === "/register" ||
     pathname.startsWith("/api/auth") ||
     pathname === "/manifest.json" ||
     pathname === "/sw.js" ||
     pathname === "/offline" ||
+    pathname === "/icon.svg" ||
     pathname.startsWith("/icons/") ||
     pathname.startsWith("/_next/") ||
     pathname === "/favicon.ico"
@@ -63,9 +73,25 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  return NextResponse.next();
+  try {
+    const userJson = decodeBase64Url(value);
+    const user = JSON.parse(userJson);
+    const requestHeaders = new Headers(request.headers);
+    if (user && user.id) {
+      requestHeaders.set("x-user-id", String(user.id));
+      requestHeaders.set("x-user-name", encodeURIComponent(user.name || ""));
+      requestHeaders.set("x-user-username", user.username || "");
+    }
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
+  } catch {
+    return NextResponse.next();
+  }
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|icons|manifest.json|sw.js|offline).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|icon.svg|icons|manifest.json|sw.js|offline).*)"],
 };
