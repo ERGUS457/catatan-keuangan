@@ -35,17 +35,19 @@ export default function DashboardPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [monthlyIncome, setMonthlyIncome] = useState(0);
   const [monthlyExpense, setMonthlyExpense] = useState(0);
+  const [debtsSummary, setDebtsSummary] = useState({ receivable: 0, payable: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
       try {
         const month = getCurrentMonth();
-        const [meRes, accRes, txRes, repRes] = await Promise.all([
+        const [meRes, accRes, txRes, repRes, debtsRes] = await Promise.all([
           fetch("/api/auth/me"),
           fetch("/api/accounts"),
           fetch(`/api/transactions?limit=5`),
           fetch(`/api/reports?month=${month}`),
+          fetch("/api/debts"),
         ]);
 
         if (meRes.ok) {
@@ -61,6 +63,19 @@ export default function DashboardPage() {
         setTransactions(Array.isArray(txData) ? txData : []);
         setMonthlyIncome(repData.income || 0);
         setMonthlyExpense(repData.expense || 0);
+
+        if (debtsRes.ok) {
+          const debtsData = await debtsRes.json();
+          if (Array.isArray(debtsData)) {
+            const rec = debtsData
+              .filter((d: { type: string; status: string; amount: number }) => d.type === "receivable" && d.status === "unpaid")
+              .reduce((sum: number, d: { amount: number }) => sum + Number(d.amount), 0);
+            const pay = debtsData
+              .filter((d: { type: string; status: string; amount: number }) => d.type === "payable" && d.status === "unpaid")
+              .reduce((sum: number, d: { amount: number }) => sum + Number(d.amount), 0);
+            setDebtsSummary({ receivable: rec, payable: pay });
+          }
+        }
       } catch (e) {
         console.error(e);
       } finally {
@@ -164,6 +179,38 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Hutang & Piutang Shortcut Card */}
+      <Link
+        href="/hutang-piutang"
+        className="block bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-4 shadow-lg transition-all group"
+      >
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <span className="text-base">🤝</span>
+            <span className="text-xs font-semibold text-white uppercase tracking-wider">
+              Catatan Hutang & Piutang
+            </span>
+          </div>
+          <span className="text-xs text-emerald-400 group-hover:translate-x-0.5 transition-transform font-medium">
+            Kelola →
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-3 mt-3">
+          <div className="bg-emerald-950/20 border border-emerald-900/30 rounded-xl p-2.5">
+            <p className="text-[10px] text-emerald-400 font-medium">Piutang (Tertagih)</p>
+            <p className="text-sm font-bold text-emerald-300 mt-0.5">
+              {formatRupiah(debtsSummary.receivable)}
+            </p>
+          </div>
+          <div className="bg-red-950/20 border border-red-900/30 rounded-xl p-2.5">
+            <p className="text-[10px] text-red-400 font-medium">Hutang (Kewajiban)</p>
+            <p className="text-sm font-bold text-red-300 mt-0.5">
+              {formatRupiah(debtsSummary.payable)}
+            </p>
+          </div>
+        </div>
+      </Link>
 
       {/* Recent Transactions */}
       <div className="pt-1">

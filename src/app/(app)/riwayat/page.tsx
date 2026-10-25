@@ -37,6 +37,7 @@ export default function RiwayatPage() {
   const [type, setType] = useState<string>("");
   const [accountId, setAccountId] = useState<string>("");
   const [categoryId, setCategoryId] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [editingTx, setEditingTx] = useState<Transaction | null>(null);
 
@@ -104,9 +105,49 @@ export default function RiwayatPage() {
     }
   }
 
+  const filteredTransactions = transactions.filter((tx) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase().trim();
+    const matchNote = tx.note ? tx.note.toLowerCase().includes(q) : false;
+    const matchCat = tx.category_name ? tx.category_name.toLowerCase().includes(q) : false;
+    const matchAcc =
+      (tx.account_name && tx.account_name.toLowerCase().includes(q)) ||
+      (tx.to_account_name && tx.to_account_name.toLowerCase().includes(q));
+    const matchAmount = tx.amount.toString().includes(q);
+    return matchNote || matchCat || matchAcc || matchAmount;
+  });
+
   return (
     <div className="p-4 space-y-4">
-      <h1 className="text-xl font-bold text-white">Riwayat Transaksi</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-bold text-white">Riwayat Transaksi</h1>
+        <span className="text-xs text-slate-400 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-full">
+          {filteredTransactions.length} transaksi
+        </span>
+      </div>
+
+      {/* Search Bar */}
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-sm">
+          🔍
+        </div>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Cari keterangan, kategori, atau nominal..."
+          className="w-full bg-slate-900 border border-slate-800 focus:border-emerald-500 rounded-xl pl-9 pr-9 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition-colors"
+        />
+        {searchQuery && (
+          <button
+            type="button"
+            onClick={() => setSearchQuery("")}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-white text-xs cursor-pointer"
+          >
+            ✕
+          </button>
+        )}
+      </div>
 
       {/* Filters */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 space-y-3">
@@ -172,14 +213,23 @@ export default function RiwayatPage() {
       {/* List */}
       {loading ? (
         <div className="text-center py-8 text-slate-400 animate-pulse">Memuat...</div>
-      ) : transactions.length === 0 ? (
+      ) : filteredTransactions.length === 0 ? (
         <div className="text-center py-12 text-slate-500">
           <p className="text-3xl mb-2">🔍</p>
           <p>Tidak ada transaksi yang cocok</p>
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery("")}
+              className="mt-3 text-xs text-emerald-400 hover:text-emerald-300 underline cursor-pointer"
+            >
+              Reset Pencarian
+            </button>
+          )}
         </div>
       ) : (
         <div className="space-y-2">
-          {transactions.map((tx) => (
+          {filteredTransactions.map((tx) => (
             <div
               key={tx.id}
               className="bg-slate-900 border border-slate-800 rounded-xl p-3"

@@ -74,6 +74,13 @@ export default function TambahPage() {
     }
   }
 
+  function handleQuickChip(val: number) {
+    const cur = parseInt(amount || "0", 10);
+    const next = cur + val;
+    if (next.toString().length > 10) return;
+    setAmount(next.toString());
+  }
+
   const numAmount = parseInt(amount || "0", 10);
   const displayAmount = numAmount > 0 ? "Rp " + numAmount.toLocaleString("id-ID") : "Rp 0";
 
@@ -175,6 +182,37 @@ export default function TambahPage() {
         >
           {displayAmount}
         </p>
+      </div>
+
+      {/* Quick Amount Chips */}
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+        {[
+          { label: "+10rb", val: 10000 },
+          { label: "+20rb", val: 20000 },
+          { label: "+50rb", val: 50000 },
+          { label: "+100rb", val: 100000 },
+          { label: "+200rb", val: 200000 },
+          { label: "+500rb", val: 500000 },
+        ].map((chip) => (
+          <button
+            key={chip.val}
+            type="button"
+            onClick={() => handleQuickChip(chip.val)}
+            className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 active:scale-95 text-xs font-semibold text-slate-300 transition-all shrink-0 cursor-pointer"
+          >
+            {chip.label}
+          </button>
+        ))}
+        {numAmount > 0 && (
+          <button
+            type="button"
+            onClick={() => setAmount("")}
+            className="px-2.5 py-1.5 rounded-xl bg-red-950/40 hover:bg-red-900/60 border border-red-800/40 text-xs font-semibold text-red-300 transition-all shrink-0 active:scale-95 cursor-pointer"
+            title="Reset Nominal"
+          >
+            Reset
+          </button>
+        )}
       </div>
 
       {/* Account / Transfer Selector */}

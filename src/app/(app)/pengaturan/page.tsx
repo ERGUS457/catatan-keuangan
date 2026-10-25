@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Logo from "@/components/Logo";
 
 interface Category {
@@ -135,6 +136,23 @@ export default function PengaturanPage() {
           </span>
         </div>
       )}
+
+      {/* Fitur Tambahan: Hutang & Piutang */}
+      <Link
+        href="/hutang-piutang"
+        className="block bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-4 shadow-lg transition-all"
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">🤝</span>
+            <div>
+              <p className="text-sm font-semibold text-white">Kelola Hutang & Piutang</p>
+              <p className="text-xs text-slate-400">Pencatatan pinjaman, talangan teman, dan jatuh tempo</p>
+            </div>
+          </div>
+          <span className="text-xs text-emerald-400 font-medium">Buka →</span>
+        </div>
+      </Link>
 
       {/* Add Category Form */}
       <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
