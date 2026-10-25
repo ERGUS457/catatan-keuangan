@@ -136,7 +136,7 @@ export default function RiwayatPage() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Cari keterangan, kategori, atau nominal..."
-          className="w-full bg-slate-900 border border-slate-800 focus:border-emerald-500 rounded-xl pl-9 pr-9 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition-colors"
+          className="w-full bg-slate-900 border border-slate-800 focus:border-blue-500 rounded-xl pl-9 pr-9 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition-colors"
         />
         {searchQuery && (
           <button
@@ -221,7 +221,7 @@ export default function RiwayatPage() {
             <button
               type="button"
               onClick={() => setSearchQuery("")}
-              className="mt-3 text-xs text-emerald-400 hover:text-emerald-300 underline cursor-pointer"
+              className="mt-3 text-xs text-blue-400 hover:text-blue-300 underline cursor-pointer"
             >
               Reset Pencarian
             </button>
@@ -236,25 +236,25 @@ export default function RiwayatPage() {
             >
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-lg">
+                  <span
+                    className={`text-lg p-1.5 rounded-lg ${
+                      tx.type === "transfer"
+                        ? "bg-indigo-950/60 text-indigo-400 border border-indigo-800/40"
+                        : "bg-slate-800"
+                    }`}
+                  >
                     {tx.type === "transfer" ? "🔄" : tx.category_icon || "📦"}
                   </span>
                   <div>
                     <p className="text-sm font-medium text-white">
                       {tx.type === "transfer"
-                        ? `${tx.account_name} → ${tx.to_account_name}`
+                        ? `Transfer: ${tx.account_name} ➔ ${tx.to_account_name || "Tujuan"}`
                         : tx.category_name || "Tanpa Kategori"}
                     </p>
                     <p className="text-xs text-slate-400">
                       {formatDate(tx.date)} ·{" "}
-                      <span
-                        className={
-                          tx.account_name === "Saldo"
-                            ? "text-blue-400"
-                            : "text-orange-400"
-                        }
-                      >
-                        {tx.account_name}
+                      <span className="text-slate-400">
+                        {tx.type === "transfer" ? "Mutasi Internal" : tx.account_name}
                       </span>
                     </p>
                   </div>
@@ -263,13 +263,13 @@ export default function RiwayatPage() {
                   <p
                     className={`font-semibold text-sm ${
                       tx.type === "income"
-                        ? "text-emerald-400"
+                        ? "text-blue-400"
                         : tx.type === "expense"
-                        ? "text-red-400"
-                        : "text-blue-400"
+                        ? "text-rose-400"
+                        : "text-indigo-400"
                     }`}
                   >
-                    {tx.type === "income" ? "+" : tx.type === "expense" ? "-" : ""}
+                    {tx.type === "income" ? "+" : tx.type === "expense" ? "-" : "⇄ "}
                     {formatRupiah(tx.amount)}
                   </p>
                 </div>
@@ -358,7 +358,7 @@ export default function RiwayatPage() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg"
+                  className="flex-1 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-lg"
                 >
                   Simpan
                 </button>

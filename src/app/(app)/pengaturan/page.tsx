@@ -114,7 +114,7 @@ export default function PengaturanPage() {
       {/* Brand Header */}
       <div className="flex items-center justify-between pb-2 border-b border-slate-900">
         <Logo size="sm" showText={true} />
-        <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-800/40 text-emerald-400">
+        <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-950/60 border border-blue-800/40 text-blue-400">
           Pengaturan
         </span>
       </div>
@@ -123,7 +123,7 @@ export default function PengaturanPage() {
       {user && (
         <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl flex items-center justify-between">
           <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-xl font-bold text-emerald-400">
+            <div className="w-12 h-12 rounded-2xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-xl font-bold text-blue-400">
               {user.name.charAt(0).toUpperCase()}
             </div>
             <div>
@@ -150,7 +150,7 @@ export default function PengaturanPage() {
               <p className="text-xs text-slate-400">Pencatatan pinjaman, talangan teman, dan jatuh tempo</p>
             </div>
           </div>
-          <span className="text-xs text-emerald-400 font-medium">Buka →</span>
+          <span className="text-xs text-blue-400 font-medium">Buka →</span>
         </div>
       </Link>
 
@@ -179,7 +179,7 @@ export default function PengaturanPage() {
               onClick={() => setType("income")}
               className={`py-2 text-xs rounded-lg font-semibold transition ${
                 type === "income"
-                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-950"
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-950"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -191,7 +191,7 @@ export default function PengaturanPage() {
             <select
               value={icon}
               onChange={(e) => setIcon(e.target.value)}
-              className="bg-slate-800/90 border border-slate-700 rounded-xl px-3 py-2 text-lg text-white focus:outline-none focus:border-emerald-500"
+              className="bg-slate-800/90 border border-slate-700 rounded-xl px-3 py-2 text-lg text-white focus:outline-none focus:border-blue-500"
             >
               {icons.map((ic) => (
                 <option key={ic} value={ic}>
@@ -204,7 +204,7 @@ export default function PengaturanPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Nama kategori baru..."
-              className="flex-1 bg-slate-800/90 border border-slate-700 rounded-xl px-4 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-emerald-500"
+              className="flex-1 bg-slate-800/90 border border-slate-700 rounded-xl px-4 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
               required
             />
           </div>
@@ -214,7 +214,7 @@ export default function PengaturanPage() {
           <button
             type="submit"
             disabled={loading || !name.trim()}
-            className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 disabled:text-slate-600 text-white text-xs font-bold rounded-xl transition shadow-lg shadow-emerald-950/50"
+            className="w-full py-3 bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white text-xs font-bold rounded-xl transition shadow-lg shadow-blue-950/50"
           >
             {loading ? "Menyimpan..." : "+ Tambah Kategori"}
           </button>
@@ -240,7 +240,7 @@ export default function PengaturanPage() {
                 <span
                   className={`text-[10px] font-semibold px-2 py-0.5 rounded-md ${
                     c.type === "income"
-                      ? "bg-emerald-950/80 border border-emerald-800/50 text-emerald-400"
+                      ? "bg-blue-950/80 border border-blue-800/50 text-blue-400"
                       : "bg-rose-950/80 border border-rose-800/50 text-rose-400"
                   }`}
                 >

@@ -81,11 +81,34 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Data tidak lengkap" }, { status: 400 });
     }
 
-    if (type === "transfer" && !to_account_id) {
-      return NextResponse.json({ error: "Tujuan transfer diperlukan" }, { status: 400 });
+    const db = getDb();
+
+    // Verify source account belongs to user
+    const sourceAcc = await db.query(
+      "SELECT id FROM accounts WHERE id = $1 AND user_id = $2",
+      [account_id, user.id]
+    );
+    if (sourceAcc.length === 0) {
+      return NextResponse.json({ error: "Akun sumber tidak valid" }, { status: 400 });
     }
 
-    const db = getDb();
+    if (type === "transfer") {
+      if (!to_account_id) {
+        return NextResponse.json({ error: "Tujuan transfer diperlukan" }, { status: 400 });
+      }
+      if (account_id === to_account_id) {
+        return NextResponse.json({ error: "Sumber dan tujuan transfer tidak boleh sama" }, { status: 400 });
+      }
+      // Verify destination account belongs to user
+      const destAcc = await db.query(
+        "SELECT id FROM accounts WHERE id = $1 AND user_id = $2",
+        [to_account_id, user.id]
+      );
+      if (destAcc.length === 0) {
+        return NextResponse.json({ error: "Akun tujuan transfer tidak valid" }, { status: 400 });
+      }
+    }
+
     const result = await db.query(
       `INSERT INTO transactions (user_id, type, amount, account_id, to_account_id, category_id, note, date)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,

@@ -159,7 +159,7 @@ export default function HutangPiutangPage() {
         <div>
           <Link
             href="/"
-            className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1 mb-1"
+            className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1 mb-1"
           >
             ← Kembali ke Beranda
           </Link>
@@ -171,7 +171,7 @@ export default function HutangPiutangPage() {
         <button
           type="button"
           onClick={() => setShowForm(!showForm)}
-          className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-xs font-semibold text-white shadow-md shadow-emerald-950 transition-all cursor-pointer"
+          className="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:scale-95 text-xs font-semibold text-white shadow-md shadow-blue-950 transition-all cursor-pointer"
         >
           {showForm ? "Tutup Form" : "+ Catat Baru"}
         </button>
@@ -180,10 +180,10 @@ export default function HutangPiutangPage() {
       {/* Summary Cards */}
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3.5">
-          <div className="flex items-center gap-1.5 mb-1 text-emerald-400">
+          <div className="flex items-center gap-1.5 mb-1 text-blue-400">
             <span className="text-xs font-bold uppercase tracking-wider">Piutang (Tertagih)</span>
           </div>
-          <p className="text-lg font-bold text-emerald-300">
+          <p className="text-lg font-bold text-blue-300">
             {formatRupiah(totalReceivableUnpaid)}
           </p>
           <p className="text-[10px] text-slate-500 mt-0.5">
@@ -208,7 +208,7 @@ export default function HutangPiutangPage() {
       {showForm && (
         <form
           onSubmit={handleSubmit}
-          className="bg-slate-900 border border-emerald-500/40 rounded-2xl p-4 space-y-3 shadow-xl"
+          className="bg-slate-900 border border-blue-500/40 rounded-2xl p-4 space-y-3 shadow-xl"
         >
           <h2 className="text-sm font-semibold text-white">Tambah Catatan Hutang/Piutang</h2>
 
@@ -225,11 +225,11 @@ export default function HutangPiutangPage() {
               onClick={() => setFormType("receivable")}
               className={`py-2 px-3 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
                 formType === "receivable"
-                  ? "bg-emerald-600 border-emerald-500 text-white"
+                  ? "bg-blue-600 border-blue-500 text-white"
                   : "bg-slate-800/80 border-slate-700 text-slate-400"
               }`}
             >
-              💚 Piutang (Dia Pinjam ke Saya)
+              💙 Piutang (Dia Pinjam ke Saya)
             </button>
             <button
               type="button"
@@ -253,7 +253,7 @@ export default function HutangPiutangPage() {
               value={personName}
               onChange={(e) => setPersonName(e.target.value)}
               placeholder="Contoh: Budi, Sisko, Ro'ai..."
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-emerald-500"
+              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-blue-500"
             />
           </div>
 
@@ -267,7 +267,7 @@ export default function HutangPiutangPage() {
                 setAmountInput(raw ? "Rp " + parseInt(raw, 10).toLocaleString("id-ID") : "");
               }}
               placeholder="Rp 0"
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm font-bold text-white placeholder-slate-500 outline-none focus:border-emerald-500"
+              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm font-bold text-white placeholder-slate-500 outline-none focus:border-blue-500"
             />
           </div>
 
@@ -278,7 +278,7 @@ export default function HutangPiutangPage() {
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-white outline-none focus:border-emerald-500"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-white outline-none focus:border-blue-500"
               />
             </div>
             <div>
@@ -288,7 +288,7 @@ export default function HutangPiutangPage() {
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
                 placeholder="Misal: Talangan makan"
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-500 outline-none focus:border-emerald-500"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-500 outline-none focus:border-blue-500"
               />
             </div>
           </div>
@@ -297,7 +297,7 @@ export default function HutangPiutangPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-xs font-semibold text-white transition-all cursor-pointer disabled:opacity-50"
+              className="flex-1 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 active:scale-95 text-xs font-semibold text-white transition-all cursor-pointer disabled:opacity-50"
             >
               {submitting ? "Menyimpan..." : "Simpan Catatan"}
             </button>
@@ -346,7 +346,7 @@ export default function HutangPiutangPage() {
             <button
               type="button"
               onClick={() => setShowForm(true)}
-              className="mt-3 text-xs text-emerald-400 hover:text-emerald-300 underline cursor-pointer"
+              className="mt-3 text-xs text-blue-400 hover:text-blue-300 underline cursor-pointer"
             >
               + Catat sekarang
             </button>
@@ -365,7 +365,7 @@ export default function HutangPiutangPage() {
                   isPaid
                     ? "border-slate-800/50 opacity-60"
                     : isReceivable
-                    ? "border-emerald-900/40"
+                    ? "border-blue-900/40"
                     : "border-red-900/40"
                 }`}
               >
@@ -376,7 +376,7 @@ export default function HutangPiutangPage() {
                         isPaid
                           ? "bg-slate-800 text-slate-400"
                           : isReceivable
-                          ? "bg-emerald-950/80 border border-emerald-800/60 text-emerald-300"
+                          ? "bg-blue-950/80 border border-blue-800/60 text-blue-300"
                           : "bg-red-950/80 border border-red-800/60 text-red-300"
                       }`}
                     >
@@ -390,7 +390,7 @@ export default function HutangPiutangPage() {
                         <span
                           className={`text-[9px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider ${
                             isReceivable
-                              ? "bg-emerald-950/80 text-emerald-400 border border-emerald-800/50"
+                              ? "bg-blue-950/80 text-blue-400 border border-blue-800/50"
                               : "bg-red-950/80 text-red-400 border border-red-800/50"
                           }`}
                         >
@@ -409,7 +409,7 @@ export default function HutangPiutangPage() {
                         isPaid
                           ? "text-slate-500 line-through"
                           : isReceivable
-                          ? "text-emerald-400"
+                          ? "text-blue-400"
                           : "text-red-400"
                       }`}
                     >
@@ -447,7 +447,7 @@ export default function HutangPiutangPage() {
                     className={`font-semibold cursor-pointer transition-colors ${
                       isPaid
                         ? "text-slate-400 hover:text-white"
-                        : "text-emerald-400 hover:text-emerald-300"
+                        : "text-blue-400 hover:text-blue-300"
                     }`}
                   >
                     {isPaid ? "Tandai Belum Lunas" : "✓ Tandai Sudah Lunas"}

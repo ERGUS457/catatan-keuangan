@@ -92,7 +92,7 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
-        <div className="w-8 h-8 border-3 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin" />
+        <div className="w-8 h-8 border-3 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
         <div className="text-slate-400 text-sm">Memuat data keuangan...</div>
       </div>
     );
@@ -105,15 +105,15 @@ export default function DashboardPage() {
         <Logo size="sm" showText={true} />
         <div className="text-right">
           <p className="text-[11px] text-slate-400">Pengguna</p>
-          <p className="text-xs font-semibold text-emerald-400">
+          <p className="text-xs font-semibold text-blue-400">
             {user ? `${user.name} 👋` : "Pengguna"}
           </p>
         </div>
       </div>
 
       {/* Net Worth Card */}
-      <div className="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800/80 rounded-3xl p-5 shadow-xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
+      <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-blue-950/40 border border-slate-800/80 rounded-3xl p-5 shadow-xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
         <p className="text-slate-400 text-xs font-medium uppercase tracking-wider mb-1">
           Total Kekayaan Bersih
         </p>
@@ -165,9 +165,9 @@ export default function DashboardPage() {
           <span className="text-[11px] text-slate-500">{getCurrentMonth()}</span>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-emerald-950/20 border border-emerald-900/30 rounded-xl p-3">
-            <p className="text-emerald-400 text-xs font-medium">Pemasukan</p>
-            <p className="text-base font-bold text-emerald-300 mt-0.5">
+          <div className="bg-blue-950/30 border border-blue-900/40 rounded-xl p-3">
+            <p className="text-blue-400 text-xs font-medium">Pemasukan</p>
+            <p className="text-base font-bold text-blue-300 mt-0.5">
               +{formatRupiah(monthlyIncome)}
             </p>
           </div>
@@ -192,20 +192,20 @@ export default function DashboardPage() {
               Catatan Hutang & Piutang
             </span>
           </div>
-          <span className="text-xs text-emerald-400 group-hover:translate-x-0.5 transition-transform font-medium">
+          <span className="text-xs text-blue-400 group-hover:translate-x-0.5 transition-transform font-medium">
             Kelola →
           </span>
         </div>
         <div className="grid grid-cols-2 gap-3 mt-3">
-          <div className="bg-emerald-950/20 border border-emerald-900/30 rounded-xl p-2.5">
-            <p className="text-[10px] text-emerald-400 font-medium">Piutang (Tertagih)</p>
-            <p className="text-sm font-bold text-emerald-300 mt-0.5">
+          <div className="bg-blue-950/30 border border-blue-900/40 rounded-xl p-2.5">
+            <p className="text-[10px] text-blue-400 font-medium">Piutang (Tertagih)</p>
+            <p className="text-sm font-bold text-blue-300 mt-0.5">
               {formatRupiah(debtsSummary.receivable)}
             </p>
           </div>
-          <div className="bg-red-950/20 border border-red-900/30 rounded-xl p-2.5">
-            <p className="text-[10px] text-red-400 font-medium">Hutang (Kewajiban)</p>
-            <p className="text-sm font-bold text-red-300 mt-0.5">
+          <div className="bg-rose-950/20 border border-rose-900/30 rounded-xl p-2.5">
+            <p className="text-[10px] text-rose-400 font-medium">Hutang (Kewajiban)</p>
+            <p className="text-sm font-bold text-rose-300 mt-0.5">
               {formatRupiah(debtsSummary.payable)}
             </p>
           </div>
@@ -220,7 +220,7 @@ export default function DashboardPage() {
           </p>
           <Link
             href="/riwayat"
-            className="text-xs font-medium text-emerald-400 hover:text-emerald-300 transition"
+            className="text-xs font-medium text-blue-400 hover:text-blue-300 transition"
           >
             Lihat Semua →
           </Link>
@@ -241,7 +241,13 @@ export default function DashboardPage() {
                 className="bg-slate-900/80 border border-slate-800/80 rounded-2xl px-4 py-3 flex items-center justify-between hover:border-slate-700 transition"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-lg shrink-0">
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${
+                      tx.type === "transfer"
+                        ? "bg-indigo-950/70 border border-indigo-800/50 text-indigo-400"
+                        : "bg-slate-800"
+                    }`}
+                  >
                     {tx.type === "transfer"
                       ? "🔄"
                       : tx.category_icon || "📦"}
@@ -249,11 +255,14 @@ export default function DashboardPage() {
                   <div>
                     <p className="text-sm font-semibold text-white">
                       {tx.type === "transfer"
-                        ? `${tx.account_name} → ${tx.to_account_name}`
+                        ? `Transfer: ${tx.account_name} ➔ ${tx.to_account_name || "Tujuan"}`
                         : tx.category_name || "Tanpa Kategori"}
                     </p>
                     <p className="text-[11px] text-slate-400 mt-0.5">
-                      {formatDateShort(tx.date)} · <span className="text-slate-500">{tx.account_name}</span>
+                      {formatDateShort(tx.date)} ·{" "}
+                      <span className="text-slate-500">
+                        {tx.type === "transfer" ? "Mutasi Saldo" : tx.account_name}
+                      </span>
                       {tx.note && <span className="italic text-slate-500"> · {tx.note}</span>}
                     </p>
                   </div>
@@ -262,13 +271,13 @@ export default function DashboardPage() {
                   <p
                     className={`text-sm font-bold ${
                       tx.type === "income"
-                        ? "text-emerald-400"
+                        ? "text-blue-400"
                         : tx.type === "expense"
                         ? "text-rose-400"
-                        : "text-blue-400"
+                        : "text-indigo-400"
                     }`}
                   >
-                    {tx.type === "income" ? "+" : tx.type === "expense" ? "-" : ""}
+                    {tx.type === "income" ? "+" : tx.type === "expense" ? "-" : "⇄ "}
                     {formatRupiah(tx.amount)}
                   </p>
                 </div>

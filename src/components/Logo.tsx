@@ -17,18 +17,18 @@ export function LogoIcon({ size = 36, className = "" }: { size?: number; classNa
       className={className}
     >
       <defs>
-        <linearGradient id="em-grad-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#10b981" />
-          <stop offset="50%" stopColor="#059669" />
-          <stop offset="100%" stopColor="#047857" />
+        <linearGradient id="bl-grad-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#3b82f6" />
+          <stop offset="50%" stopColor="#2563eb" />
+          <stop offset="100%" stopColor="#1d4ed8" />
         </linearGradient>
-        <linearGradient id="em-grad-inner" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#34d399" />
-          <stop offset="100%" stopColor="#10b981" />
+        <linearGradient id="bl-grad-inner" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#60a5fa" />
+          <stop offset="100%" stopColor="#2563eb" />
         </linearGradient>
-        <linearGradient id="em-accent" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#a7f3d0" />
-          <stop offset="100%" stopColor="#34d399" />
+        <linearGradient id="bl-accent" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#93c5fd" />
+          <stop offset="100%" stopColor="#60a5fa" />
         </linearGradient>
         <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
           <feGaussianBlur stdDeviation="2" result="blur" />
@@ -43,7 +43,7 @@ export function LogoIcon({ size = 36, className = "" }: { size?: number; classNa
         width="44"
         height="44"
         rx="12"
-        fill="url(#em-grad-bg)"
+        fill="url(#bl-grad-bg)"
         className="drop-shadow-md"
       />
       <rect
@@ -52,21 +52,21 @@ export function LogoIcon({ size = 36, className = "" }: { size?: number; classNa
         width="42"
         height="42"
         rx="11"
-        stroke="rgba(255,255,255,0.2)"
+        stroke="rgba(255,255,255,0.25)"
         strokeWidth="1.5"
       />
 
       {/* Wallet / Card body layer */}
       <path
         d="M11 16C11 14.8954 11.8954 14 13 14H33C34.1046 14 35 14.8954 35 16V31C35 32.6569 33.6569 34 32 34H13C11.8954 34 11 33.1046 11 32V16Z"
-        fill="#022c22"
-        fillOpacity="0.45"
+        fill="#0f172a"
+        fillOpacity="0.55"
       />
 
       {/* Upward diagonal growth wave / cash dynamic fold */}
       <path
         d="M12 28.5L18.5 22L24.5 25.5L34 16.5"
-        stroke="url(#em-accent)"
+        stroke="url(#bl-accent)"
         strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -75,7 +75,7 @@ export function LogoIcon({ size = 36, className = "" }: { size?: number; classNa
       {/* Arrow tip at growth point */}
       <path
         d="M29 16.5H34V21.5"
-        stroke="url(#em-accent)"
+        stroke="url(#bl-accent)"
         strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -86,7 +86,7 @@ export function LogoIcon({ size = 36, className = "" }: { size?: number; classNa
         cx="33"
         cy="26"
         r="3.5"
-        fill="url(#em-grad-inner)"
+        fill="url(#bl-grad-inner)"
         stroke="#ffffff"
         strokeWidth="1.5"
         filter="url(#glow)"
@@ -118,9 +118,9 @@ export default function Logo({ size = "md", showText = true, className = "" }: L
       {showText && (
         <div className="flex flex-col text-left">
           <span className={`font-bold tracking-tight text-white ${textSizes[size].title}`}>
-            Catatan<span className="text-emerald-400">Keuangan</span>
+            Catatan<span className="text-blue-400">Keuangan</span>
           </span>
-          <span className={`font-medium tracking-wider uppercase text-emerald-300/80 ${textSizes[size].sub}`}>
+          <span className={`font-medium tracking-wider uppercase text-blue-300/80 ${textSizes[size].sub}`}>
             Simpel & Aman
           </span>
         </div>

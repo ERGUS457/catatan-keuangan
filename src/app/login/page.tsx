@@ -52,13 +52,13 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         {/* Brand Header with Logo */}
         <div className="text-center mb-8 flex flex-col items-center">
-          <div className="p-3 bg-slate-900 border border-emerald-900/40 rounded-2xl mb-4 shadow-xl shadow-emerald-950/40">
+          <div className="p-3 bg-slate-900 border border-blue-900/40 rounded-2xl mb-4 shadow-xl shadow-blue-950/40">
             <Logo size="lg" showText={false} />
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-white">
-            Catatan<span className="text-emerald-400">Keuangan</span>
+            Catatan<span className="text-blue-400">Keuangan</span>
           </h1>
-          <p className="text-xs font-semibold text-emerald-400/80 tracking-widest uppercase mt-0.5">
+          <p className="text-xs font-semibold text-blue-400/80 tracking-widest uppercase mt-0.5">
             Pribadi & PWA
           </p>
           <p className="text-sm text-slate-400 mt-2">
@@ -84,7 +84,7 @@ export default function LoginPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))}
                 placeholder="Contoh: ergus"
-                className="w-full px-4 py-3 rounded-xl bg-slate-800/80 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition text-sm"
+                className="w-full px-4 py-3 rounded-xl bg-slate-800/80 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition text-sm"
                 disabled={loading}
               />
             </div>
@@ -100,7 +100,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Masukkan 6 digit PIN atau password"
-                  className="w-full px-4 py-3 rounded-xl bg-slate-800/80 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition text-sm pr-12 tracking-wider"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-800/80 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition text-sm pr-12 tracking-wider"
                   autoFocus
                   disabled={loading}
                   required
@@ -118,7 +118,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading || !password}
-              className="w-full mt-2 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 disabled:bg-slate-800 disabled:text-slate-500 text-white font-semibold text-sm transition shadow-lg shadow-emerald-900/40 disabled:shadow-none disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full mt-2 py-3.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:bg-slate-800 disabled:text-slate-500 text-white font-semibold text-sm transition shadow-lg shadow-blue-900/40 disabled:shadow-none disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -138,7 +138,7 @@ export default function LoginPage() {
             </p>
             <Link
               href="/register"
-              className="inline-flex items-center justify-center w-full py-2.5 px-4 rounded-xl border border-emerald-600/40 hover:border-emerald-500 bg-emerald-950/20 hover:bg-emerald-950/40 text-emerald-400 font-medium text-xs transition"
+              className="inline-flex items-center justify-center w-full py-2.5 px-4 rounded-xl border border-blue-600/40 hover:border-blue-500 bg-blue-950/20 hover:bg-blue-950/40 text-blue-400 font-medium text-xs transition"
             >
               ✨ Buat / Daftar Akun Baru
             </Link>

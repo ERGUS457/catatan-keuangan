@@ -114,7 +114,7 @@ export default function LaporanPage() {
             <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500 block mb-0.5">
               Total Pemasukan
             </span>
-            <span className="text-base font-extrabold text-emerald-700">
+            <span className="text-base font-extrabold text-blue-700">
               {formatRupiah(income)}
             </span>
           </div>
@@ -130,7 +130,7 @@ export default function LaporanPage() {
             <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500 block mb-0.5">
               Arus Kas Bersih
             </span>
-            <span className={`text-base font-extrabold ${net >= 0 ? "text-emerald-700" : "text-red-700"}`}>
+            <span className={`text-base font-extrabold ${net >= 0 ? "text-blue-700" : "text-red-700"}`}>
               {formatRupiah(net)}
             </span>
           </div>
@@ -201,17 +201,17 @@ export default function LaporanPage() {
                     <td className="py-1.5">
                       <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold ${
                         tx.type === "income"
-                          ? "bg-emerald-100 text-emerald-800"
+                          ? "bg-blue-100 text-blue-800"
                           : tx.type === "expense"
                           ? "bg-red-100 text-red-800"
-                          : "bg-blue-100 text-blue-800"
+                          : "bg-indigo-100 text-indigo-800"
                       }`}>
                         {tx.type === "income" ? "Masuk" : tx.type === "expense" ? "Keluar" : "Transfer"}
                       </span>
                     </td>
                     <td className="py-1.5">
                       {tx.type === "transfer"
-                        ? `${tx.account_name} → ${tx.to_account_name}`
+                        ? `${tx.account_name} ➔ ${tx.to_account_name || "Tujuan"}`
                         : `${tx.category_name || "Tanpa Kategori"} (${tx.account_name})`}
                     </td>
                     <td className="py-1.5 text-slate-600 max-w-[150px] truncate">
@@ -243,13 +243,13 @@ export default function LaporanPage() {
               type="month"
               value={month}
               onChange={(e) => setMonth(e.target.value)}
-              className="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none focus:border-emerald-500"
+              className="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none focus:border-blue-500"
             />
             <button
               type="button"
               onClick={handlePrint}
               disabled={loading}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-xs font-semibold text-white transition-all shadow-md shadow-emerald-950 cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 active:scale-95 text-xs font-semibold text-white transition-all shadow-md shadow-blue-950 cursor-pointer disabled:opacity-50"
               title="Unduh / Cetak Laporan PDF"
             >
               <span>📄</span>
@@ -265,8 +265,8 @@ export default function LaporanPage() {
             {/* Summary Cards */}
             <div className="grid grid-cols-3 gap-2">
               <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 text-center">
-                <p className="text-[11px] text-emerald-400 mb-1">Pemasukan</p>
-                <p className="text-sm font-bold text-emerald-300 truncate">
+                <p className="text-[11px] text-blue-400 mb-1">Pemasukan</p>
+                <p className="text-sm font-bold text-blue-300 truncate">
                   {formatRupiah(income)}
                 </p>
               </div>
@@ -280,7 +280,7 @@ export default function LaporanPage() {
                 <p className="text-[11px] text-slate-400 mb-1">Selisih</p>
                 <p
                   className={`text-sm font-bold truncate ${
-                    net >= 0 ? "text-emerald-400" : "text-red-400"
+                    net >= 0 ? "text-blue-400" : "text-red-400"
                   }`}
                 >
                   {formatRupiah(net)}
@@ -344,7 +344,7 @@ export default function LaporanPage() {
                         <div className="flex justify-between text-xs text-slate-400">
                           <span>{t.month}</span>
                           <span>
-                            <span className="text-emerald-400">
+                            <span className="text-blue-400">
                               +{formatRupiah(Number(t.income))}
                             </span>{" "}
                             /{" "}
@@ -356,7 +356,7 @@ export default function LaporanPage() {
                         <div className="space-y-0.5">
                           <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
                             <div
-                              className="bg-emerald-500 h-full rounded-full"
+                              className="bg-blue-500 h-full rounded-full"
                               style={{ width: `${incW}%` }}
                             />
                           </div>
