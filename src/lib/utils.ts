@@ -6,8 +6,28 @@ export function parseRupiahInput(value: string): number {
   return parseInt(value.replace(/\D/g, ""), 10) || 0;
 }
 
-export function formatDate(dateStr: string): string {
-  const d = new Date(dateStr + "T00:00:00");
+export function parseDateSafe(dateVal: string | Date | null | undefined): Date | null {
+  if (!dateVal) return null;
+  if (dateVal instanceof Date) {
+    return isNaN(dateVal.getTime()) ? null : dateVal;
+  }
+  const str = String(dateVal).trim();
+  if (!str) return null;
+
+  // Extract YYYY-MM-DD to avoid timezone shifts and invalid ISO concats
+  const match = str.match(/^(\d{4}-\d{2}-\d{2})/);
+  if (match) {
+    const d = new Date(match[1] + "T00:00:00");
+    if (!isNaN(d.getTime())) return d;
+  }
+
+  const d = new Date(str);
+  return isNaN(d.getTime()) ? null : d;
+}
+
+export function formatDate(dateStr: string | Date | null | undefined): string {
+  const d = parseDateSafe(dateStr);
+  if (!d) return "-";
   return d.toLocaleDateString("id-ID", {
     weekday: "short",
     day: "numeric",
@@ -16,8 +36,9 @@ export function formatDate(dateStr: string): string {
   });
 }
 
-export function formatDateShort(dateStr: string): string {
-  const d = new Date(dateStr + "T00:00:00");
+export function formatDateShort(dateStr: string | Date | null | undefined): string {
+  const d = parseDateSafe(dateStr);
+  if (!d) return "-";
   return d.toLocaleDateString("id-ID", {
     day: "numeric",
     month: "short",

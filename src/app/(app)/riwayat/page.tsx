@@ -327,7 +327,7 @@ export default function RiwayatPage() {
                 <label className="text-xs text-slate-400 block mb-1">Tanggal</label>
                 <input
                   type="date"
-                  value={editingTx.date.split("T")[0]}
+                  value={editingTx.date ? (editingTx.date.includes("T") ? editingTx.date.split("T")[0] : editingTx.date) : ""}
                   onChange={(e) =>
                     setEditingTx({ ...editingTx, date: e.target.value })
                   }

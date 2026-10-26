@@ -28,9 +28,15 @@ interface TransactionItem {
 }
 
 function formatMonthName(monthStr: string): string {
+  if (!monthStr) return "-";
   try {
-    const [y, m] = monthStr.split("-");
-    const d = new Date(parseInt(y, 10), parseInt(m, 10) - 1, 1);
+    const parts = monthStr.split("-");
+    if (parts.length < 2) return monthStr;
+    const y = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10);
+    if (isNaN(y) || isNaN(m)) return monthStr;
+    const d = new Date(y, m - 1, 1);
+    if (isNaN(d.getTime())) return monthStr;
     return d.toLocaleDateString("id-ID", { month: "long", year: "numeric" });
   } catch {
     return monthStr;
