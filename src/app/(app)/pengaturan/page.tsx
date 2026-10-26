@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface Category {
   id: number;
@@ -114,9 +115,12 @@ export default function PengaturanPage() {
       {/* Brand Header */}
       <div className="flex items-center justify-between pb-2 border-b border-slate-900">
         <Logo size="sm" showText={true} />
-        <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-950/60 border border-blue-800/40 text-blue-400">
-          Pengaturan
-        </span>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-950/60 border border-blue-800/40 text-blue-400">
+            Pengaturan
+          </span>
+        </div>
       </div>
 
       {/* Profile Card */}
@@ -136,6 +140,20 @@ export default function PengaturanPage() {
           </span>
         </div>
       )}
+
+      {/* Preferensi Tampilan (Tema Terang / Gelap) */}
+      <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-4 sm:p-5 shadow-xl flex items-center justify-between">
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-2xl">
+            🌓
+          </div>
+          <div>
+            <p className="text-sm font-bold text-white">Tema Tampilan</p>
+            <p className="text-xs text-slate-400">Beralih antara mode gelap dan mode terang</p>
+          </div>
+        </div>
+        <ThemeToggle />
+      </div>
 
       {/* Fitur Tambahan: Hutang & Piutang */}
       <Link

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -48,7 +49,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-dvh flex items-center justify-center p-4 bg-slate-950">
+    <div className="min-h-dvh flex items-center justify-center p-4 bg-slate-950 relative">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-sm">
         {/* Brand Header with Logo */}
         <div className="text-center mb-8 flex flex-col items-center">

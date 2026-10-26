@@ -35,10 +35,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id">
+    <html lang="id" className="dark" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const t = localStorage.getItem("theme");
+                if (t === "light") {
+                  document.documentElement.classList.remove("dark");
+                  document.documentElement.classList.add("light");
+                } else {
+                  document.documentElement.classList.add("dark");
+                  document.documentElement.classList.remove("light");
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
       </head>
       <body className="bg-slate-950 text-slate-100 antialiased min-h-dvh">
         <RegisterSW />

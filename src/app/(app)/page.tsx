@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { formatRupiah, getCurrentMonth, formatDateShort } from "@/lib/utils";
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface Account {
   id: number;
@@ -100,14 +101,17 @@ export default function DashboardPage() {
 
   return (
     <div className="p-4 space-y-4 max-w-lg mx-auto">
-      {/* Top Bar with Brand Logo and Greeting */}
+      {/* Top Bar with Brand Logo, Theme Toggle, and Greeting */}
       <div className="flex items-center justify-between pt-1 pb-2 border-b border-slate-900">
         <Logo size="sm" showText={true} />
-        <div className="text-right">
-          <p className="text-[11px] text-slate-400">Pengguna</p>
-          <p className="text-xs font-semibold text-blue-400">
-            {user ? `${user.name} 👋` : "Pengguna"}
-          </p>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <div className="text-right">
+            <p className="text-[11px] text-slate-400">Pengguna</p>
+            <p className="text-xs font-semibold text-blue-400">
+              {user ? `${user.name} 👋` : "Pengguna"}
+            </p>
+          </div>
         </div>
       </div>
 

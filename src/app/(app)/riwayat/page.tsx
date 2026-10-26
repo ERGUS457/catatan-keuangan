@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { formatRupiah, formatDate, getCurrentMonth } from "@/lib/utils";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface Transaction {
   id: number;
@@ -121,9 +122,12 @@ export default function RiwayatPage() {
     <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-white">Riwayat Transaksi</h1>
-        <span className="text-xs text-slate-400 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-full">
-          {filteredTransactions.length} transaksi
-        </span>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <span className="text-xs text-slate-400 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-full">
+            {filteredTransactions.length} transaksi
+          </span>
+        </div>
       </div>
 
       {/* Search Bar */}

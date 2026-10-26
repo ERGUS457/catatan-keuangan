@@ -1,5 +1,97 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* LIGHT MODE OVERRIDES */
+html.light {
+  --color-slate-950: #f8fafc;
+  --color-slate-900: #ffffff;
+  --color-slate-800: #f1f5f9;
+  --color-slate-700: #e2e8f0;
+  --color-slate-600: #cbd5e1;
+  --color-slate-500: #64748b;
+  --color-slate-400: #475569;
+  --color-slate-300: #334155;
+  --color-slate-200: #1e293b;
+  --color-slate-100: #0f172a;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+/* Light mode background and text colors */
+html.light body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* Headings and titles in light mode (only when text-white is used as content text) */
+html.light h1.text-white,
+html.light h2.text-white,
+html.light h3.text-white,
+html.light p.text-white,
+html.light div.text-white,
+html.light span.text-white:not([class*="bg-"]):not([class*="shadow-"]) {
+  color: #0f172a !important;
+}
+
+/* Card borders and shadows in light mode */
+html.light .bg-slate-900,
+html.light [class*="bg-slate-900"] {
+  box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -2px rgba(15, 23, 42, 0.04);
+}
+
+/* Card gradients subtle in light mode */
+html.light .from-slate-900 {
+  --tw-gradient-from: #ffffff var(--tw-gradient-from-position) !important;
+}
+html.light .via-slate-900 {
+  --tw-gradient-via: #ffffff var(--tw-gradient-via-position) !important;
+}
+html.light .to-blue-950\/40 {
+  --tw-gradient-to: rgba(239, 246, 255, 0.8) var(--tw-gradient-to-position) !important;
+}
+html.light .from-blue-950\/40 {
+  --tw-gradient-from: rgba(239, 246, 255, 0.9) var(--tw-gradient-from-position) !important;
+}
+html.light .border-blue-900\/40,
+html.light .border-blue-800\/40 {
+  border-color: rgba(191, 219, 254, 0.8) !important;
+}
+
+/* Input and form controls in light mode */
+html.light input:not([type="checkbox"]):not([type="radio"]),
+html.light select,
+html.light textarea {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* BottomNav in light mode */
+html.light nav.bg-slate-900 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-top-color: #e2e8f0 !important;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.04);
+}
+
+html.light nav a.text-slate-500 {
+  color: #64748b !important;
+}
+
+/* Top border lines in headers */
+html.light .border-slate-900 {
+  border-color: #e2e8f0 !important;
+}
+
 @media print {
   body {
     background-color: #ffffff !important;

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { formatRupiah, getCurrentMonth, formatDate } from "@/lib/utils";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface CategoryReport {
   name: string;
@@ -245,6 +246,7 @@ export default function LaporanPage() {
         <div className="flex flex-wrap justify-between items-center gap-2">
           <h1 className="text-xl font-bold text-white">Laporan Keuangan</h1>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <input
               type="month"
               value={month}

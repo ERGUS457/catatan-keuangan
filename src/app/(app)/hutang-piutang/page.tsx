@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { formatRupiah, formatDate } from "@/lib/utils";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface DebtItem {
   id: number;
@@ -168,13 +169,16 @@ export default function HutangPiutangPage() {
             <span>🤝</span>
           </h1>
         </div>
-        <button
-          type="button"
-          onClick={() => setShowForm(!showForm)}
-          className="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:scale-95 text-xs font-semibold text-white shadow-md shadow-blue-950 transition-all cursor-pointer"
-        >
-          {showForm ? "Tutup Form" : "+ Catat Baru"}
-        </button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            type="button"
+            onClick={() => setShowForm(!showForm)}
+            className="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:scale-95 text-xs font-semibold text-white shadow-md shadow-blue-950 transition-all cursor-pointer"
+          >
+            {showForm ? "Tutup Form" : "+ Catat Baru"}
+          </button>
+        </div>
       </div>
 
       {/* Summary Cards */}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getToday } from "@/lib/utils";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface Category {
   id: number;
@@ -163,6 +164,12 @@ export default function TambahPage() {
 
   return (
     <div className="p-4 space-y-4">
+      {/* Top Header */}
+      <div className="flex items-center justify-between pb-1">
+        <h1 className="text-xl font-bold text-white">Catat Transaksi</h1>
+        <ThemeToggle />
+      </div>
+
       {/* Type Selector Tabs */}
       <div className="grid grid-cols-3 gap-2 p-1 bg-slate-900 border border-slate-800 rounded-2xl shadow-inner">
         <button
