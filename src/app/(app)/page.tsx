@@ -60,7 +60,7 @@ export default function DashboardPage() {
         const repData = await repRes.json();
 
         setAccounts(Array.isArray(accData) ? accData : []);
-        setTransactions(Array.isArray(txData) ? txData : []);
+        setTransactions(Array.isArray(txData) ? txData.slice(0, 5) : []);
         setMonthlyIncome(repData.income || 0);
         setMonthlyExpense(repData.expense || 0);
 
@@ -212,35 +212,39 @@ export default function DashboardPage() {
         </div>
       </Link>
 
-      {/* Recent Transactions */}
-      <div className="pt-1">
-        <div className="flex justify-between items-center mb-3">
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-300">
-            5 Transaksi Terakhir
-          </p>
+      {/* Recent Transactions Card with Padding & 5 Items Limit */}
+      <div className="bg-slate-900/50 border border-slate-800/80 rounded-3xl p-4 space-y-3 shadow-lg">
+        <div className="flex justify-between items-center px-1">
+          <div className="flex items-center gap-2">
+            <span className="text-sm">🕒</span>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-200">
+              5 Transaksi Terakhir
+            </p>
+          </div>
           <Link
             href="/riwayat"
-            className="text-xs font-medium text-blue-400 hover:text-blue-300 transition"
+            className="text-xs font-semibold text-blue-400 hover:text-blue-300 transition"
           >
             Lihat Semua →
           </Link>
         </div>
+
         {transactions.length === 0 ? (
-          <div className="text-center py-10 bg-slate-900/40 border border-slate-800/60 rounded-2xl text-slate-500">
-            <p className="text-3xl mb-2">📝</p>
-            <p className="text-sm font-medium">Belum ada transaksi</p>
-            <p className="text-xs text-slate-600 mt-1">
-              Ketuk tombol + di bawah untuk mencatat
+          <div className="text-center py-8 bg-slate-950/40 border border-slate-800/60 rounded-2xl text-slate-500">
+            <p className="text-2xl mb-1.5">📝</p>
+            <p className="text-xs font-semibold text-slate-300">Belum ada transaksi</p>
+            <p className="text-[11px] text-slate-600 mt-0.5">
+              Ketuk tombol + di bawah untuk mencatat transaksi baru
             </p>
           </div>
         ) : (
           <div className="space-y-2">
-            {transactions.map((tx) => (
+            {transactions.slice(0, 5).map((tx) => (
               <div
                 key={tx.id}
-                className="bg-slate-900/80 border border-slate-800/80 rounded-2xl px-4 py-3 flex items-center justify-between hover:border-slate-700 transition"
+                className="bg-slate-950/60 border border-slate-800/70 rounded-2xl px-3.5 py-3 flex items-center justify-between gap-3 hover:border-slate-700 transition"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 min-w-0">
                   <div
                     className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${
                       tx.type === "transfer"
@@ -252,13 +256,13 @@ export default function DashboardPage() {
                       ? "🔄"
                       : tx.category_icon || "📦"}
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-white">
+                  <div className="min-w-0">
+                    <p className="text-xs sm:text-sm font-semibold text-white truncate">
                       {tx.type === "transfer"
                         ? `Transfer: ${tx.account_name} ➔ ${tx.to_account_name || "Tujuan"}`
                         : tx.category_name || "Tanpa Kategori"}
                     </p>
-                    <p className="text-[11px] text-slate-400 mt-0.5">
+                    <p className="text-[11px] text-slate-400 mt-0.5 truncate">
                       {formatDateShort(tx.date)} ·{" "}
                       <span className="text-slate-500">
                         {tx.type === "transfer" ? "Mutasi Saldo" : tx.account_name}
@@ -267,9 +271,9 @@ export default function DashboardPage() {
                     </p>
                   </div>
                 </div>
-                <div className="text-right">
+                <div className="text-right shrink-0">
                   <p
-                    className={`text-sm font-bold ${
+                    className={`text-xs sm:text-sm font-bold ${
                       tx.type === "income"
                         ? "text-blue-400"
                         : tx.type === "expense"
