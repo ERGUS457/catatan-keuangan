@@ -116,15 +116,15 @@ export default function DashboardPage() {
       </div>
 
       {/* Net Worth Card */}
-      <div className="bg-gradient-to-br from-white via-white to-blue-50/80 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/40 border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-5 shadow-xl relative overflow-hidden">
+      <div className="bg-gradient-to-br from-white via-white to-blue-50/70 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/40 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm dark:shadow-xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
-        <p className="text-slate-600 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">
+        <p className="text-slate-600 dark:text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">
           Total Kekayaan Bersih
         </p>
-        <p className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        <p className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
           {formatRupiah(total)}
         </p>
-        <p className="text-[11px] text-slate-600 dark:text-slate-500 mt-2 font-medium">
+        <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-2 font-semibold">
           Akumulasi total Saldo digital dan Uang tunai (Cash)
         </p>
       </div>
@@ -132,51 +132,51 @@ export default function DashboardPage() {
       {/* Account Cards (Saldo vs Cash) */}
       <div className="grid grid-cols-2 gap-3">
         {/* Saldo Digital */}
-        <div className="bg-gradient-to-br from-blue-50/70 to-white dark:from-blue-950/40 dark:to-slate-900/80 border border-blue-200/80 dark:border-blue-800/40 rounded-2xl p-4 shadow-lg">
+        <div className="bg-gradient-to-br from-blue-50/70 to-white dark:from-blue-950/40 dark:to-slate-900/80 border border-blue-200 dark:border-blue-800/40 rounded-2xl p-4 shadow-sm dark:shadow-lg">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-blue-700 dark:text-blue-300 uppercase tracking-wider">
+            <span className="text-xs font-black text-blue-700 dark:text-blue-300 uppercase tracking-wider">
               Saldo Digital
             </span>
             <span className="p-1.5 bg-blue-100 dark:bg-blue-900/40 rounded-lg text-sm">🏦</span>
           </div>
-          <p className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+          <p className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
             {formatRupiah(saldo?.balance || 0)}
           </p>
-          <p className="text-[10px] text-blue-700 dark:text-blue-400/80 font-semibold mt-1">Bank & E-Wallet</p>
+          <p className="text-[10px] text-blue-700 dark:text-blue-400 font-bold mt-1">Bank & E-Wallet</p>
         </div>
 
         {/* Cash Tunai */}
-        <div className="bg-gradient-to-br from-amber-50/70 to-white dark:from-amber-950/40 dark:to-slate-900/80 border border-amber-200/80 dark:border-amber-800/40 rounded-2xl p-4 shadow-lg">
+        <div className="bg-gradient-to-br from-amber-50/70 to-white dark:from-amber-950/40 dark:to-slate-900/80 border border-amber-200 dark:border-amber-800/40 rounded-2xl p-4 shadow-sm dark:shadow-lg">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-amber-800 dark:text-amber-300 uppercase tracking-wider">
+            <span className="text-xs font-black text-amber-800 dark:text-amber-300 uppercase tracking-wider">
               Uang Cash
             </span>
             <span className="p-1.5 bg-amber-100 dark:bg-amber-900/40 rounded-lg text-sm">💵</span>
           </div>
-          <p className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+          <p className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
             {formatRupiah(cash?.balance || 0)}
           </p>
-          <p className="text-[10px] text-amber-800 dark:text-amber-400/80 font-semibold mt-1">Uang Tunai Dompet</p>
+          <p className="text-[10px] text-amber-800 dark:text-amber-400 font-bold mt-1">Uang Tunai Dompet</p>
         </div>
       </div>
 
       {/* Monthly Summary */}
-      <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-lg">
-        <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-100 dark:border-slate-800/60">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-400">
+      <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm dark:shadow-lg">
+        <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-200 dark:border-slate-800/60">
+          <p className="text-xs font-extrabold uppercase tracking-wider text-slate-800 dark:text-slate-300">
             Ringkasan Bulan Ini
           </p>
-          <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-500">{getCurrentMonth()}</span>
+          <span className="text-[11px] font-bold text-slate-600 dark:text-slate-400">{getCurrentMonth()}</span>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-blue-50/80 dark:bg-blue-950/30 border border-blue-200/80 dark:border-blue-900/40 rounded-xl p-3">
-            <p className="text-blue-700 dark:text-blue-400 text-xs font-semibold">Pemasukan</p>
+          <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/40 rounded-xl p-3">
+            <p className="text-blue-700 dark:text-blue-400 text-xs font-bold">Pemasukan</p>
             <p className="text-base font-extrabold text-blue-800 dark:text-blue-300 mt-0.5">
               +{formatRupiah(monthlyIncome)}
             </p>
           </div>
-          <div className="bg-rose-50/80 dark:bg-rose-950/20 border border-rose-200/80 dark:border-rose-900/30 rounded-xl p-3 text-right">
-            <p className="text-rose-700 dark:text-rose-400 text-xs font-semibold">Pengeluaran</p>
+          <div className="bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/30 rounded-xl p-3 text-right">
+            <p className="text-rose-700 dark:text-rose-400 text-xs font-bold">Pengeluaran</p>
             <p className="text-base font-extrabold text-rose-800 dark:text-rose-300 mt-0.5">
               -{formatRupiah(monthlyExpense)}
             </p>
@@ -187,12 +187,12 @@ export default function DashboardPage() {
       {/* Hutang & Piutang Shortcut Card */}
       <Link
         href="/hutang-piutang"
-        className="block bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-2xl p-4 shadow-lg transition-all group"
+        className="block bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-2xl p-4 shadow-sm dark:shadow-lg transition-all group"
       >
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <span className="text-base">🤝</span>
-            <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+            <span className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">
               Catatan Hutang & Piutang
             </span>
           </div>
@@ -201,15 +201,15 @@ export default function DashboardPage() {
           </span>
         </div>
         <div className="grid grid-cols-2 gap-3 mt-3">
-          <div className="bg-blue-50/80 dark:bg-blue-950/30 border border-blue-200/80 dark:border-blue-900/40 rounded-xl p-2.5">
-            <p className="text-[10px] text-blue-700 dark:text-blue-400 font-semibold">Piutang (Tertagih)</p>
-            <p className="text-sm font-extrabold text-blue-800 dark:text-blue-300 mt-0.5">
+          <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/40 rounded-xl p-2.5">
+            <p className="text-[10px] text-blue-700 dark:text-blue-400 font-bold">Piutang (Tertagih)</p>
+            <p className="text-sm font-black text-blue-800 dark:text-blue-300 mt-0.5">
               {formatRupiah(debtsSummary.receivable)}
             </p>
           </div>
-          <div className="bg-rose-50/80 dark:bg-rose-950/20 border border-rose-200/80 dark:border-rose-900/30 rounded-xl p-2.5">
-            <p className="text-[10px] text-rose-700 dark:text-rose-400 font-semibold">Hutang (Kewajiban)</p>
-            <p className="text-sm font-extrabold text-rose-800 dark:text-rose-300 mt-0.5">
+          <div className="bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/30 rounded-xl p-2.5">
+            <p className="text-[10px] text-rose-700 dark:text-rose-400 font-bold">Hutang (Kewajiban)</p>
+            <p className="text-sm font-black text-rose-800 dark:text-rose-300 mt-0.5">
               {formatRupiah(debtsSummary.payable)}
             </p>
           </div>
@@ -217,11 +217,11 @@ export default function DashboardPage() {
       </Link>
 
       {/* Recent Transactions Card with Padding & 5 Items Limit */}
-      <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/80 rounded-3xl p-4 space-y-3 shadow-lg">
+      <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/80 rounded-3xl p-4 space-y-3 shadow-sm dark:shadow-lg">
         <div className="flex justify-between items-center px-1">
           <div className="flex items-center gap-2">
             <span className="text-sm">🕒</span>
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+            <p className="text-xs font-extrabold uppercase tracking-wider text-slate-800 dark:text-slate-200">
               5 Transaksi Terakhir
             </p>
           </div>
@@ -246,38 +246,36 @@ export default function DashboardPage() {
             {transactions.slice(0, 5).map((tx) => (
               <div
                 key={tx.id}
-                className="bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70 rounded-2xl px-3.5 py-3 flex items-center justify-between gap-3 hover:border-slate-300 dark:hover:border-slate-700 transition"
+                className="bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/70 rounded-2xl px-3.5 py-3 flex items-center justify-between gap-3 hover:border-slate-300 dark:hover:border-slate-700 transition"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div
                     className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${
                       tx.type === "transfer"
                         ? "bg-indigo-100 dark:bg-indigo-950/70 border border-indigo-200 dark:border-indigo-800/50 text-indigo-700 dark:text-indigo-400"
-                        : "bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-200"
+                        : "bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200"
                     }`}
                   >
-                    {tx.type === "transfer"
-                      ? "🔄"
-                      : tx.category_icon || "📦"}
+                    {tx.type === "transfer" ? "🔄" : tx.category_icon || "📦"}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">
+                    <p className="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate">
                       {tx.type === "transfer"
                         ? `Transfer: ${tx.account_name} ➔ ${tx.to_account_name || "Tujuan"}`
                         : tx.category_name || "Tanpa Kategori"}
                     </p>
                     <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5 truncate font-medium">
                       {formatDateShort(tx.date)} ·{" "}
-                      <span className="text-slate-500 dark:text-slate-500 font-normal">
+                      <span className="text-slate-700 dark:text-slate-300 font-bold">
                         {tx.type === "transfer" ? "Mutasi Saldo" : tx.account_name}
                       </span>
-                      {tx.note && <span className="italic text-slate-500"> · {tx.note}</span>}
+                      {tx.note && <span className="italic text-slate-600 dark:text-slate-400"> · {tx.note}</span>}
                     </p>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
                   <p
-                    className={`text-xs sm:text-sm font-extrabold ${
+                    className={`text-xs sm:text-sm font-black ${
                       tx.type === "income"
                         ? "text-blue-700 dark:text-blue-400"
                         : tx.type === "expense"

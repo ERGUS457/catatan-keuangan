@@ -2,30 +2,8 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* LIGHT MODE OVERRIDES */
+/* THEME COLOR SCHEMES */
 html.light {
-  --color-slate-950: #f8fafc;
-  --color-slate-900: #ffffff;
-  --color-slate-800: #f1f5f9;
-  --color-slate-700: #e2e8f0;
-  --color-slate-600: #cbd5e1;
-  --color-slate-500: #475569;
-  --color-slate-400: #334155;
-  --color-slate-300: #1e293b;
-  --color-slate-200: #0f172a;
-  --color-slate-100: #020617;
-
-  --color-blue-300: #1d4ed8;
-  --color-blue-400: #2563eb;
-  --color-amber-300: #b45309;
-  --color-amber-400: #92400e;
-  --color-rose-300: #be123c;
-  --color-rose-400: #e11d48;
-  --color-red-300: #b91c1c;
-  --color-red-400: #dc2626;
-  --color-indigo-300: #4338ca;
-  --color-indigo-400: #4f46e5;
-
   color-scheme: light;
 }
 
@@ -33,20 +11,114 @@ html.dark {
   color-scheme: dark;
 }
 
-/* Light mode background and text colors */
+/* ==========================================================================
+   LIGHT MODE OVERRIDES
+   Ensures WCAG AAA contrast, crisp dark text on light backgrounds,
+   clean borders, and vivid accent colors.
+   ========================================================================== */
+
+/* Body & Base text */
 html.light body {
   background-color: #f8fafc !important;
   color: #0f172a !important;
 }
 
-/* Headings and titles in light mode (only when text-white is used as content text) */
+/* Card backgrounds: dark slate containers become clean white cards with crisp borders */
+html.light .bg-slate-900,
+html.light .bg-slate-950,
+html.light [class*="bg-slate-900"]:not(button):not(a):not([class*="bg-blue"]):not([class*="bg-rose"]):not([class*="bg-indigo"]):not([class*="rounded-full"]),
+html.light [class*="bg-slate-950"] {
+  background-color: #ffffff !important;
+}
+
+/* Inner list items and subtle containers */
+html.light .bg-slate-50,
+html.light .bg-slate-950\/40,
+html.light .bg-slate-950\/60,
+html.light .bg-slate-950\/70,
+html.light .bg-slate-900\/40,
+html.light .bg-slate-900\/50,
+html.light .bg-slate-900\/60 {
+  background-color: #f8fafc !important;
+}
+
+/* Card Borders */
+html.light .border-slate-900,
+html.light .border-slate-800,
+html.light .border-slate-700,
+html.light [class*="border-slate-800"],
+html.light [class*="border-slate-900"] {
+  border-color: #e2e8f0 !important;
+}
+
+/* Card shadows */
+html.light .shadow-lg,
+html.light .shadow-xl {
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -2px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* --------------------------------------------------------------------------
+   TEXT CONTRAST: High contrast dark text on light surfaces
+   -------------------------------------------------------------------------- */
+html.light .text-slate-950,
+html.light .text-slate-900 {
+  color: #0f172a !important;
+}
+
+html.light .text-slate-800 {
+  color: #1e293b !important;
+}
+
+html.light .text-slate-700 {
+  color: #334155 !important;
+}
+
+html.light .text-slate-600 {
+  color: #475569 !important;
+}
+
+html.light .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* In light mode, slate-400 and slate-300 are made dark enough to read */
+html.light .text-slate-400 {
+  color: #64748b !important;
+}
+
+html.light .text-slate-300 {
+  color: #475569 !important;
+}
+
+html.light .text-slate-200 {
+  color: #1e293b !important;
+}
+
+/* Content text that was hardcoded as text-white becomes solid dark in light mode */
 html.light h1.text-white,
 html.light h2.text-white,
 html.light h3.text-white,
 html.light p.text-white,
-html.light div.text-white,
-html.light span.text-white:not([class*="bg-"]):not([class*="shadow-"]) {
+html.light div.text-white:not([class*="bg-blue"]):not([class*="bg-rose"]):not([class*="bg-red"]),
+html.light span.text-white:not([class*="bg-blue"]):not([class*="bg-rose"]):not([class*="bg-red"]):not([class*="bg-indigo"]) {
   color: #0f172a !important;
+}
+
+/* --------------------------------------------------------------------------
+   SOLID ACTION BUTTONS: Always preserve pure white text/icons
+   -------------------------------------------------------------------------- */
+html.light button.bg-blue-600,
+html.light button.bg-blue-600 *,
+html.light a.bg-blue-600,
+html.light a.bg-blue-600 *,
+html.light .bg-blue-600,
+html.light .bg-blue-600 *,
+html.light .bg-rose-600,
+html.light .bg-rose-600 *,
+html.light .bg-red-600,
+html.light .bg-red-600 * {
+  color: #ffffff !important;
+  fill: #ffffff !important;
 }
 
 /* Contrast enhancement for colored text in light mode */
