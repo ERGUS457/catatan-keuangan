@@ -53,6 +53,36 @@ Aplikasi pencatatan keuangan harian pribadi yang simpel, mobile-first, mendukung
 | `APP_PASSWORD_HASH` | SHA-256 hash dari PIN/password |
 | `SESSION_SECRET` | String acak panjang untuk HMAC signature |
 
+## AI Gemini (Opsional)
+
+Fitur analisis laporan dan chat keuangan bertenaga **Gemini 3.8 Flash**. Seluruhnya
+opsional — tanpa API key, fitur lain tetap jalan normal.
+
+### Aktivasi
+
+1. **Jalankan skema database** di Neon SQL Editor (sekali saja):
+   ```sql
+   -- isi dari file schema.sql di root repo
+   ```
+2. Ambil API key gratis di [Google AI Studio](https://aistudio.google.com/apikey).
+3. Buka **Pengaturan → AI Gemini**, tempel key, klik **Simpan & Uji**.
+   Key diuji dulu ke Google sebelum disimpan; bila gagal, tidak ada yang tersimpan.
+4. Buka **Laporan** → section **✨ AI Gemini**:
+   - **📊 Analisis** — ringkasan, temuan, peringatan, dan saran untuk bulan terpilih.
+     Hasil tersimpan, jadi membuka ulang tidak memanggil Gemini lagi; pakai **↻ Perbarui**
+     untuk analisis baru.
+   - **💬 Chat** — tanya bebas soal keuangan bulan itu. Riwayat tersimpan.
+
+### Catatan teknis
+
+- API key di-encrypt (AES-256-GCM) di tabel `user_settings`, key enkripsi
+  diturunkan dari `SESSION_SECRET`. Key tidak pernah dikirim ke browser.
+- **Jangan ganti `SESSION_SECRET`** tanpa memasukkan ulang key — key lama jadi
+  tidak terbaca.
+- Rate limit 10 permintaan AI per menit per pengguna (best-effort, in-memory).
+- Model dikunci `gemini-3.8-flash` di `src/lib/gemini.ts`.
+- Tanpa env variable tambahan.
+
 ## Deploy ke Vercel
 
 1. Hubungkan repository GitHub ke project Vercel.

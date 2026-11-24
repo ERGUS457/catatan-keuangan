@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { formatRupiah, getCurrentMonth, formatDate } from "@/lib/utils";
 import ThemeToggle from "@/components/ThemeToggle";
+import AiSection from "@/components/ai/AiSection";
 
 interface CategoryReport {
   name: string;
@@ -381,6 +382,9 @@ export default function LaporanPage() {
                 </div>
               )}
             </div>
+
+            {/* AI Analysis & Chat (ikut print:hidden dari parent) */}
+            <AiSection month={month} />
           </>
         )}
       </div>

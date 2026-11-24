@@ -29,6 +29,17 @@ export default function PengaturanPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // AI Gemini settings
+  const [aiConfigured, setAiConfigured] = useState<boolean | null>(null);
+  const [aiLast4, setAiLast4] = useState<string | null>(null);
+  const [aiUpdatedAt, setAiUpdatedAt] = useState<string | null>(null);
+  const [aiKeyInput, setAiKeyInput] = useState("");
+  const [aiEditing, setAiEditing] = useState(false);
+  const [aiBusy, setAiBusy] = useState<"" | "test" | "save" | "delete">("");
+  const [aiMsg, setAiMsg] = useState<{ type: "ok" | "err"; text: string } | null>(
+    null
+  );
+
   const icons = ["🍽️", "🚗", "🛒", "📄", "🎮", "💊", "📚", "💰", "🎁", "📈", "🎉", "✈️", "☕", "🏠", "👔", "📦", "💻", "🏋️", "🍕", "⛽"];
 
   async function loadData() {
@@ -46,6 +57,17 @@ export default function PengaturanPage() {
       if (catRes.ok) {
         const catData = await catRes.json();
         setCategories(Array.isArray(catData) ? catData : []);
+      }
+
+      const aiRes = await fetch("/api/ai/settings");
+      if (aiRes.ok) {
+        const aiData = await aiRes.json();
+        setAiConfigured(!!aiData.configured);
+        setAiLast4(aiData.last4 || null);
+        setAiUpdatedAt(aiData.updatedAt || null);
+        if (!aiData.configured) setAiEditing(true);
+      } else {
+        setAiConfigured(false);
       }
     } catch (e) {
       console.error(e);
@@ -110,6 +132,82 @@ export default function PengaturanPage() {
     router.refresh();
   }
 
+  async function handleAiTest() {
+    setAiBusy("test");
+    setAiMsg(null);
+    try {
+      const res = await fetch("/api/ai/test", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+          aiKeyInput.trim() ? { apiKey: aiKeyInput.trim() } : {}
+        ),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setAiMsg({ type: "ok", text: data.message || "Terhubung" });
+      } else {
+        setAiMsg({ type: "err", text: data.error || "API key gagal diuji" });
+      }
+    } catch {
+      setAiMsg({ type: "err", text: "Koneksi gagal" });
+    } finally {
+      setAiBusy("");
+    }
+  }
+
+  async function handleAiSave(e: React.FormEvent) {
+    e.preventDefault();
+    if (!aiKeyInput.trim()) return;
+    setAiBusy("save");
+    setAiMsg(null);
+    try {
+      const res = await fetch("/api/ai/settings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ apiKey: aiKeyInput.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setAiConfigured(true);
+        setAiLast4(data.last4 || aiKeyInput.trim().slice(-4));
+        setAiUpdatedAt(new Date().toISOString());
+        setAiKeyInput("");
+        setAiEditing(false);
+        setAiMsg({ type: "ok", text: "API key tersimpan & terhubung." });
+      } else {
+        setAiMsg({ type: "err", text: data.error || "Gagal menyimpan" });
+      }
+    } catch {
+      setAiMsg({ type: "err", text: "Koneksi gagal" });
+    } finally {
+      setAiBusy("");
+    }
+  }
+
+  async function handleAiDelete() {
+    if (!confirm("Hapus API key Gemini dari aplikasi?")) return;
+    setAiBusy("delete");
+    setAiMsg(null);
+    try {
+      const res = await fetch("/api/ai/settings", { method: "DELETE" });
+      if (res.ok) {
+        setAiConfigured(false);
+        setAiLast4(null);
+        setAiUpdatedAt(null);
+        setAiEditing(true);
+        setAiMsg({ type: "ok", text: "API key dihapus." });
+      } else {
+        const data = await res.json();
+        setAiMsg({ type: "err", text: data.error || "Gagal menghapus" });
+      }
+    } catch {
+      setAiMsg({ type: "err", text: "Koneksi gagal" });
+    } finally {
+      setAiBusy("");
+    }
+  }
+
   return (
     <div className="p-4 space-y-6 max-w-lg mx-auto">
       {/* Brand Header */}
@@ -153,6 +251,139 @@ export default function PengaturanPage() {
           </div>
         </div>
         <ThemeToggle />
+      </div>
+
+      {/* AI Gemini: API Key */}
+      <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-4 sm:p-5 shadow-xl space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-xl">
+              ✨
+            </div>
+            <div>
+              <p className="text-sm font-bold text-white">AI Gemini</p>
+              <p className="text-xs text-slate-400">
+                Analisis laporan & chat keuangan
+              </p>
+            </div>
+          </div>
+          {aiConfigured === null ? (
+            <span className="text-[10px] text-slate-500">memuat...</span>
+          ) : aiConfigured ? (
+            <span className="text-[10px] font-semibold px-2 py-1 rounded-lg bg-emerald-950/60 border border-emerald-800/50 text-emerald-400">
+              ✓ Terhubung
+            </span>
+          ) : (
+            <span className="text-[10px] font-semibold px-2 py-1 rounded-lg bg-slate-800 border border-slate-700 text-slate-400">
+              Belum diatur
+            </span>
+          )}
+        </div>
+
+        {aiConfigured && (
+          <p className="text-[11px] text-slate-500">
+            Key ****{aiLast4} · gemini-3.8-flash
+            {aiUpdatedAt
+              ? ` · diperbarui ${new Date(aiUpdatedAt).toLocaleDateString("id-ID")}`
+              : ""}
+          </p>
+        )}
+
+        <p className="text-[11px] text-slate-500 leading-relaxed">
+          Ambil key gratis di{" "}
+          <a
+            href="https://aistudio.google.com/apikey"
+            target="_blank"
+            rel="noreferrer"
+            className="text-blue-400 hover:text-blue-300 underline"
+          >
+            Google AI Studio
+          </a>
+          . Key disimpan terenkripsi dan hanya dipakai server.
+        </p>
+
+        {aiMsg && (
+          <p
+            className={`text-[11px] px-3 py-2 rounded-lg border ${
+              aiMsg.type === "ok"
+                ? "text-emerald-400 bg-emerald-950/30 border-emerald-900/40"
+                : "text-rose-400 bg-rose-950/30 border-rose-900/40"
+            }`}
+          >
+            {aiMsg.text}
+          </p>
+        )}
+
+        {aiEditing || !aiConfigured ? (
+          <form onSubmit={handleAiSave} className="space-y-2">
+            <input
+              type="password"
+              value={aiKeyInput}
+              onChange={(e) => setAiKeyInput(e.target.value)}
+              placeholder="AIza..."
+              autoComplete="off"
+              spellCheck={false}
+              className="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 font-mono"
+            />
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                disabled={aiBusy !== "" || !aiKeyInput.trim()}
+                className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white text-xs font-bold rounded-xl transition shadow-lg shadow-blue-950/50 cursor-pointer"
+              >
+                {aiBusy === "save" ? "Menguji & menyimpan..." : "Simpan & Uji"}
+              </button>
+              <button
+                type="button"
+                onClick={handleAiTest}
+                disabled={aiBusy !== ""}
+                className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-bold rounded-xl transition disabled:opacity-50 cursor-pointer"
+              >
+                {aiBusy === "test" ? "Menguji..." : "Uji API Key"}
+              </button>
+            </div>
+            {aiConfigured && (
+              <button
+                type="button"
+                onClick={() => {
+                  setAiEditing(false);
+                  setAiKeyInput("");
+                  setAiMsg(null);
+                }}
+                className="w-full text-[11px] text-slate-500 hover:text-slate-300 py-1"
+              >
+                Batal
+              </button>
+            )}
+          </form>
+        ) : (
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={handleAiTest}
+              disabled={aiBusy !== ""}
+              className="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold rounded-xl transition disabled:opacity-50 cursor-pointer"
+            >
+              {aiBusy === "test" ? "Menguji..." : "Uji API Key"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setAiEditing(true)}
+              disabled={aiBusy !== ""}
+              className="flex-1 py-2.5 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-800/50 text-blue-400 text-xs font-bold rounded-xl transition disabled:opacity-50 cursor-pointer"
+            >
+              Ganti Key
+            </button>
+            <button
+              type="button"
+              onClick={handleAiDelete}
+              disabled={aiBusy !== ""}
+              className="px-3 py-2.5 bg-rose-950/30 hover:bg-rose-950/60 border border-rose-900/40 text-rose-400 text-xs font-bold rounded-xl transition disabled:opacity-50 cursor-pointer"
+            >
+              {aiBusy === "delete" ? "..." : "Hapus"}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Fitur Tambahan: Hutang & Piutang */}
