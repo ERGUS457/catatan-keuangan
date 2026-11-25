@@ -7,6 +7,9 @@ import {
 import { getDb } from "@/lib/db";
 
 export const GEMINI_MODEL = "gemini-3.8-flash";
+// Dipakai HANYA bila model utama menolak (503/5xx, mis. high demand).
+// Model utama tetap dicoba lebih dulu; fallback tidak aktif selama 3.8 sehat.
+const FALLBACK_MODELS = ["gemini-3.6-flash", "gemini-3.5-flash"];
 const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
 export const SETTING_KEY_GEMINI = "gemini_api_key";
 const MAX_CONTEXT_TRANSACTIONS = 50;
@@ -57,7 +60,11 @@ export function decryptValue(
 }
 
 export function looksLikeGeminiKey(key: string): boolean {
-  return /^AIza[0-9A-Za-z_-]{30,50}$/.test(key.trim());
+  // Google mengeluarkan key dalam lebih dari satu format (AIza..., AQ...., dsb).
+  // Pemeriksaan di sini hanya sekadar sanity check — otoritas sebenarnya adalah
+  // uji nyata ke Google sebelum key disimpan (fail-closed di PUT /api/ai/settings).
+  const k = key.trim();
+  return k.length >= 16 && k.length <= 200 && !/\s/.test(k);
 }
 
 // ---------------------------------------------------------------------------
@@ -176,7 +183,35 @@ export async function callGemini(
   systemPrompt: string,
   messages: GeminiMessage[]
 ): Promise<string> {
-  const url = `${GEMINI_BASE}/${GEMINI_MODEL}:generateContent`;
+  const models = [GEMINI_MODEL, ...FALLBACK_MODELS];
+  let lastError: GeminiError | null = null;
+
+  for (const model of models) {
+    try {
+      return await callGeminiModel(model, apiKey, systemPrompt, messages);
+    } catch (e) {
+      if (e instanceof GeminiError) {
+        lastError = e;
+        // Fallback hanya untuk gangguan sisi Google (5xx / timeout).
+        // Key salah (4xx) atau quota (429) tidak akan membaik dengan model lain.
+        const retryable = e.status === 0 || e.status >= 500;
+        if (retryable) continue;
+      }
+      throw e;
+    }
+  }
+  throw (
+    lastError || new GeminiError("Layanan Gemini sedang bermasalah.", 503)
+  );
+}
+
+async function callGeminiModel(
+  model: string,
+  apiKey: string,
+  systemPrompt: string,
+  messages: GeminiMessage[]
+): Promise<string> {
+  const url = `${GEMINI_BASE}/${model}:generateContent`;
   const body = {
     systemInstruction: { parts: [{ text: systemPrompt }] },
     contents: messages.map((m) => ({

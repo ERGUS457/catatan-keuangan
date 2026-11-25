@@ -63,7 +63,7 @@ export async function PUT(request: NextRequest) {
     }
     if (!looksLikeGeminiKey(apiKey)) {
       return NextResponse.json(
-        { error: "Format API key tidak valid. Key Google biasanya diawali AIza." },
+        { error: "Format API key tidak valid. Tempel key apa adanya dari Google AI Studio." },
         { status: 400 }
       );
     }

@@ -105,7 +105,7 @@ terbuka), jadi kebocoran satu row = kebocoran key asli.
 | Route | Method | Fungsi |
 |---|---|---|
 | `/api/ai/settings` | GET | Status key: `{ configured, last4, model, updatedAt }` |
-| `/api/ai/settings` | PUT | Simpan key baru `{ apiKey }` — divalidasi format dulu (`AIza...`, 39 char), lalu diuji nyata |
+| `/api/ai/settings` | PUT | Simpan key baru `{ apiKey }` — sanity check format (panjang, tanpa spasi; Google mengeluarkan lebih dari satu format key, jadi cek prefix `AIza` tidak dipakai), lalu **diuji nyata** ke Google — gagal uji = tidak disimpan |
 | `/api/ai/settings` | DELETE | Hapus key |
 | `/api/ai/test` | POST | Tombol **"Uji API Key"**: `{ apiKey? }` — jika field kosong, uji key tersimpan. Kirim `models/gemini-3.8-flash:generateContent` prompt "balas OK". Return `{ ok, message, latencyMs }` |
 | `/api/ai/messages` | GET | `?month=YYYY-MM` → `{ messages, analysis }`. `messages`: maks **50** pesan `kind='chat'` terakhir (urut ASC) utk tab Chat. `analysis`: baris `kind='analysis'` **terbaru** utk bulan itu (atau null). |

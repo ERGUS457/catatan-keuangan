@@ -320,7 +320,7 @@ export default function PengaturanPage() {
               type="password"
               value={aiKeyInput}
               onChange={(e) => setAiKeyInput(e.target.value)}
-              placeholder="AIza..."
+              placeholder="Tempel API key dari Google AI Studio..."
               autoComplete="off"
               spellCheck={false}
               className="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 font-mono"
